@@ -1,0 +1,11 @@
+    
+//get list
+var listNativJS = document.querySelectorAll('.js-list-item');
+//add IE11 support forEach after querySelectorAll
+listNativJS = Array.prototype.slice.call( listNativJS );
+    
+    listNativJS.forEach( function( item ) {
+        /*
+            action with ITEM
+        */
+    });
