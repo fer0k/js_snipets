@@ -1,0 +1,29 @@
+
+<script type="text/javascript">
+    /* start timer jQ */
+    var timerJq = setInterval(function() {
+    if( $ !== undefined ) {
+
+        $(function(){
+            /* function jQ */
+
+            /*
+                many code to jQuery
+            */
+
+            /* clear timer */
+            clearInterval(timerJq);
+            timerJq = 'jquery_load';
+        });
+
+    }
+    }, 500);
+
+    /* break timer */
+    setTimeout(function() {
+        if(timerJq !== 'jquery_load' ) {
+            console.log( 'jQuery is UNDEFINED more 20s/ Problems?' );
+            clearInterval(timerJq);
+        }
+    }, 20000);
+</script>

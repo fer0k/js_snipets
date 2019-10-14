@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        /*--------------------------------*/
+        .b-tabsSize {
+            position: relative;
+         padding: 0 2000px;
+            margin: 0 -2000px;
+               background-color: #f2f2f2;
+        }
+        .b-tabsSize .tabsSize__names {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .b-tabsSize .tabsSize__name {
+            position: relative;
+            display: inline-block;
+            vertical-align: bottom;
+            padding: 5px 7px;
+            width: 14.3%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #4da7ec;
+            min-width: 160px;
+            margin: 0 -0..05em 0 0;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+        }
+        .b-tabsSize .tabsSize__name:after {
+            content: "";
+            position: absolute;
+            display: block;
+            bottom: 0;
+            height: 3px;
+            background-color: #f2f2f2;
+            left: 0;
+            right: 0;
+        }
+            .b-tabsSize .tabsSize__name.tabsSize__name--on {
+                background-color: #ffffff;
+                color: #222222;
+            }
+            .b-tabsSize .tabsSize__name.tabsSize__name--on:after {
+                background-color: #ffffff;
+            }
+        .b-tabsSize .tabsSize__wrap {
+            background-color: #ffffff;
+        }
+        .b-tabsSize ul .tabsSize__name:before {
+            content: none;
+        }
+        .b-tabsSize .tabsSize__item {
+            padding: 20px;
+        }
+        .b-tabsSize .tabsSize__item[data-tabuse="true"] {
+            padding: 70px 70px 60px 2px;
+        }
+            .b-tabsSize--menu {
+            padding-top: 60px;
+            }
+            .b-tabsSize--content {
+            padding-bottom: 75px;
+            }
+    </style>
+    <script
+        src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous" 
+    ></script>
+
+<script type="text/javascript">
+    /* start timer JQ */
+    var timerJq = setInterval(function() {
+    if( $ !== undefined ) {
+
+        $(function(){
+            /* function jQ */
+            if( $(".js-tabsSize").length ) {
+                tabSizeLive(".js-tabsSize","tabsSize__name--on");
+            };
+
+            if( $(".js-galleryLine").length ) {
+                $(".js-galleryLine").each(function(){
+                    $(this).addClass("owl-carousel").owlCarousel({
+                        items:1,
+                        margin:10,
+                        autoHeight:true,
+                        loop: true,
+                        nav: true,
+                        navText: ['',''],
+                        dots: false,
+                        animateOut: 'slideOutRight',
+                        animateIn: 'slideInLeft'
+                    });
+                });
+            };
+
+            /* clear timer */
+            clearInterval(timerJq);
+            timerJq = 'jquery_load';
+        });
+
+    }
+    }, 500);
+
+    /* break timer */
+    setTimeout(function() {
+        if(timerJq !== 'jquery_load' ) {
+            console.log( 'jQuery is UNDEFINED more 20s/ Problems?' );
+            clearInterval(timerJq);
+        }
+    }, 20000);
+
+    function tabSizeLive (name, activeName) {
+        var activeName = activeName || 'active';
+        $(name).each(function() {
+            var tabNames = $(this).find("[data-status='list-name']");
+            var tabContent = $(this).find("[data-status='list-content']");
+            var listTabsName = 0;
+            $(tabNames).children().each( function() {
+                if(!listTabsName) $(this).addClass(activeName);
+                listTabsName++;
+                $(this).attr("data-listNumb", listTabsName ).attr("data-tabUse", true );
+                /* ACTION = tab */
+                $(this).on("click", function() {
+                    $(tabNames).children().removeClass(activeName);
+                    $(this).addClass(activeName);
+                    $(tabContent).children("[data-tabUse ='true']").hide();
+                    $(tabContent).find("[data-listNumb='"+$(this).attr("data-listnumb")+"']").show();
+                });
+            });
+            var listTabs = 0;
+            $(tabContent).children().each( function() {
+                if(listTabsName--  < 1) return;
+                listTabs++;
+                $(this).attr("data-listNumb", listTabs ).attr("data-tabUse", true ).hide();
+                if(listTabs==1) $(this).show();
+            });
+        });
+    }
+
+    /*
+    if( $(".js-tabsSize").length ) {
+        tabSizeLive(".js-tabsSize-lv1","tabsSize__name--on","1");
+    };
+    function tabSizeLive (name, activeName,lv='0') {
+        var activeName = activeName || 'active';
+        $(name).each(function() {
+            var tabNames = $(this).find("[data-status='list-name"+lv+"']");
+            var tabContent = $(this).find("[data-status='list-content"+lv+"']");
+            var listTabsName = 0;
+            $(tabNames).children().each( function() {
+                if(!listTabsName) $(this).addClass(activeName);
+                listTabsName++;
+                $(this).attr("data-listNumb"+lv, listTabsName ).attr("data-tabUse"+lv, true );
+                $(this).on("click", function() {
+                    $(tabNames).children().removeClass(activeName);
+                    $(this).addClass(activeName);
+                    $(tabContent).children("[data-tabUse"+lv+" ='true']").hide();
+                    $(tabContent).find("[data-listNumb"+lv+"='"+$(this).attr("data-listnumb"+lv)+"']").show();
+                });
+            });
+            var listTabs = 0;
+            $(tabContent).children().each( function() {
+                if(listTabsName--  < 1) return;
+                listTabs++;
+                $(this).attr("data-listNumb"+lv, listTabs ).attr("data-tabUse"+lv, true ).hide();
+                if(listTabs==1) $(this).show();
+            });
+        });
+    }
+    */
+   
+</script>
+</head>
+<body>
+    
+        <div class="b-tabsSize b-tabsSize--menu js-tabsSize">
+            <ul class="tabsSize__names" data-status="list-name">
+                <li class="tabsSize__name">
+                    Размер1
+                </li>
+                <li class="tabsSize__name">
+                    Размер2
+                </li>
+                <li class="tabsSize__name">
+                    Размер3
+                </li>
+                <li class="tabsSize__name">
+                    Размер4
+                </li>
+            </ul>
+            <div class="tabsSize__wrap" data-status="list-content">
+                <div class="tabsSize__item">
+                    Контент Р1
+                </div>
+                <div class="tabsSize__item">
+                    Контент Р2
+                </div>
+                <div class="tabsSize__item">
+                    Контент Р3
+                </div>
+                <div class="tabsSize__item">
+                    Контент Р4
+                </div>
+                <div class="tabsSize__item">
+                    Контент Р5
+                </div>
+                <div class="tabsSize__item">
+                    Контент Р6
+                </div>
+            </div>
+        </div>
+
+</body>
+</html>
